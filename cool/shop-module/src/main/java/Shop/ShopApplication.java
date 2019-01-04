@@ -9,7 +9,7 @@ public class ShopApplication {
 
     public static void main(String[] args) {
         SpringApplication app = new SpringApplication(ShopApplication.class);
-        app.run(args);;
+        app.run(args);
     }
 
 }
