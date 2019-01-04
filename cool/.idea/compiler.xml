@@ -6,12 +6,23 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="customer-module" />
+        <module name="customermodule" />
+        <module name="shop-module" />
         <module name="shopmodule" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="cool" target="1.8" />
+      <module name="customer-module" target="1.8" />
+      <module name="shop-module" target="1.8" />
+    </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="customer-module" options="-parameters" />
+      <module name="customermodule" options="-parameters" />
+      <module name="shop-module" options="-parameters" />
       <module name="shopmodule" options="-parameters" />
     </option>
   </component>
