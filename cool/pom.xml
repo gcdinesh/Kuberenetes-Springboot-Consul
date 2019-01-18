@@ -19,6 +19,9 @@
     </modules>
     <properties>
         <java.version>1.8</java.version>
+        <maven.docker.plugin.version>1.0.0</maven.docker.plugin.version>
+        <dockerimage.tag>latest</dockerimage.tag>
+        <docker.repo.name>myproject</docker.repo.name>
     </properties>
 
     <dependencies>
@@ -33,6 +36,14 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>com.spotify</groupId>
+                <artifactId>docker-maven-plugin</artifactId>
+                <version>${maven.docker.plugin.version}</version>
+                <configuration>
+                    <skipDockerBuild>true</skipDockerBuild>
+                </configuration>
             </plugin>
         </plugins>
     </build>
