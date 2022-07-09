@@ -1,0 +1,9 @@
+1) Deploy kubernetes using docker desktop
+2) Check how to enable kuberenetes dashboard by default it will not be present
+3) kubectl create clusterrolebinding dashboard-admin --clusterrole=cluster-admin --serviceaccount=default:dashboard
+4) kubectl create clusterrolebinding serviceaccount-cluster-admin --clusterrole=cluster-admin --group=system:serviceaccount
+4) kubectl -n kubernetes-dashboard get secrets $(kubectl -n kubernetes-dashboard get sa admin-user	 -ojsonpath="{.secrets[0].name}") -ojsonpath="{.data.token}" | echo "$(base64 -d)"
+5) remember to provide "type" in config.yaml file to expose the ports to outer world
+6) to connect between two services provide 	spec.template.spec.containers[0].name.ports.containerPort and then deploy and run "kubectl get pods -o wide" and fetch the ip address and use it in another service.
+
+User "system:serviceaccount:kubernetes-dashboard:kubernetes-dashboard" cannot list resource "serviceaccounts" in API group "" in the namespace "default"

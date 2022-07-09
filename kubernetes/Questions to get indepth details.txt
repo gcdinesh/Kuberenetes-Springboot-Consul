@@ -1,0 +1,3 @@
+Questions to get indepth details:
+what is kubectl proxy?
+what is the different ways to asssign access to users in kubectl

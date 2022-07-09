@@ -1,0 +1,18 @@
+spring:
+  application:
+    name: product-service
+
+---
+
+spring:
+  cloud:
+    consul:
+      enabled: true
+      host: ${CONSUL_IP}
+      port: ${CONSUL_PORT}
+      discovery:
+        healthCheckInterval: 15s
+#          datacenters:
+#            STORES: localhost   #here STORES is the another service name CHANGE IT TO YOUR OWN SERVICE NAME
+
+#Check https://cloud.spring.io/spring-cloud-consul/multi/multi_spring-cloud-consul-discovery.html#_looking_up_services for service discovery types

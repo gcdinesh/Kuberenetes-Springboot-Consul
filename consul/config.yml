@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: consul
+  namespace: dev-server
+  labels:
+    k8s-app: consul
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      k8s-app: consul
+  template:
+    metadata:
+      name: consul
+      labels:
+        k8s-app: consul
+    spec:
+      containers:
+        - name: consul
+          image: consul:latest
+          ports:
+            - containerPort: 8500
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: consul
+  namespace: dev-server
+  labels:
+    k8s-app: consul
+spec:
+  ports:
+    - name: tcp-8500-8500-consul
+      protocol: TCP
+      port: 8500
+      targetPort: 8500
+  selector:
+    k8s-app: consul
+  type: LoadBalancer

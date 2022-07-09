@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>org.shopper</groupId>
+    <artifactId>account</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <description>account</description>
+    <packaging>jar</packaging>
+
+    <properties>
+        <java.version>8</java.version>
+        <maven.compiler.source>8</maven.compiler.source>
+        <maven.compiler.target>8</maven.compiler.target>
+        <spring.boot.version>2.4.1</spring.boot.version>
+        <spring.cloud.dependencies.version>2020.0.0</spring.cloud.dependencies.version>
+        <spring.consul.version>3.0.0</spring.consul.version>
+        <!--        <spring.eureka.version>3.0.0</spring.eureka.version>-->
+
+        <!--non - spring jars-->
+        <bson.version>4.1.1</bson.version>
+        <mongo-java-driver.version>3.12.7</mongo-java-driver.version>
+        <mongodb-driver-core.version>4.6.1</mongodb-driver-core.version>
+
+        <lombok.version>1.18.16</lombok.version>
+        <jackson.version>2.13.3</jackson.version>
+        <gson.version>2.9.0</gson.version>
+        <commons-validator.version>1.7</commons-validator.version>
+        <commons-lang.version>2.6</commons-lang.version>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>${spring.cloud.dependencies.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <dependencies>
+        <!--        Spring Dependencies   -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-dependencies</artifactId>
+            <version>${spring.boot.version}</version>
+            <type>pom</type>
+        </dependency>
+        <!--if you are using 2020.0.0 version of spring cloud than you need to this dependency in
+         your maven dependencies to enable bootstrap, which is desabled by default in 2020.0.0.-->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-bootstrap</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+            <version>${spring.boot.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+            <version>${spring.boot.version}</version>
+        </dependency>
+        <dependency>
+            <!-- Spring Cloud starter -->
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter</artifactId>
+        </dependency>
+        <!-- commenting spring data mongodb because we have added below mongdb-java driver-->
+        <!--        <dependency>-->
+        <!--            <groupId>org.springframework.boot</groupId>-->
+        <!--            <artifactId>spring-boot-starter-data-mongodb</artifactId>-->
+        <!--            <version>${spring.boot.version}</version>-->
+        <!--        </dependency>-->
+        <!--        <dependency>-->
+        <!--            <groupId>org.springframework.cloud</groupId>-->
+        <!--            <artifactId>spring-cloud-netflix-eureka-client</artifactId>-->
+        <!--            <version>${spring.eureka.version}</version>-->
+        <!--        </dependency>-->
+        <!--        <dependency>-->
+        <!--            <groupId>org.springframework.cloud</groupId>-->
+        <!--            <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>-->
+        <!--            <version>${spring.eureka.version}</version>-->
+        <!--        </dependency>-->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-consul-discovery</artifactId>
+            <version>${spring.consul.version}</version>
+        </dependency>
+        <!-- End of Spring Dependencies   -->
+
+        <!--Mongo dependencies-->
+            <!--Used for mongo client URI-->
+        <dependency>
+            <groupId>org.mongodb</groupId>
+            <artifactId>mongo-java-driver</artifactId>
+            <version>${mongo-java-driver.version}</version>
+        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>org.mongodb</groupId>-->
+<!--            <artifactId>mongodb-driver-core</artifactId>-->
+<!--            <version>${mongodb-driver-core.version}</version>-->
+<!--        </dependency>-->
+            <!--To avoid ClassNotFoundException: org.bson.UuidRepresentation-->
+        <dependency>
+            <groupId>org.mongodb</groupId>
+            <artifactId>bson</artifactId>
+            <version>${bson.version}</version>
+        </dependency>
+        <!--End of Mongo dependencies-->
+
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>${lombok.version}</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <!-- To avoid missing classDefNotFound: InputCoercion-->
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>${jackson.version}</version>
+        </dependency>
+
+        <!-- To avoid method did not exist for: com.google.gson.GsonBuilder.setLenient()Lcom/google/gson/GsonBuilder;-->
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+            <version>${gson.version}</version>
+        </dependency>
+
+        <!-- Used for email validation-->
+        <dependency>
+            <groupId>commons-validator</groupId>
+            <artifactId>commons-validator</artifactId>
+            <version>${commons-validator.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>commons-lang</groupId>
+            <artifactId>commons-lang</artifactId>
+            <version>${commons-lang.version}</version>
+        </dependency>
+    </dependencies>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
+                </configuration>
+            </plugin>
+            <!--Use this spring-boot-maven-plugin to
+                1) create a fat JAR that has all the 3rd party jars inside the BOOT-INF folder and
+                2) populate the META_INF\MANIFEST.MF file with the starting application details
+
+             To run the command use this mvn clean package spring-boot:repackage
+            -->
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                        <configuration>
+                            <mainClass>
+                                com.shopper.account.AccountServiceApplication
+                            </mainClass>
+                        </configuration>
+                    </execution>
+                </executions>
+                <version>2.0.1.RELEASE</version>
+            </plugin>
+        </plugins>
+    </build>
+
+
+</project>

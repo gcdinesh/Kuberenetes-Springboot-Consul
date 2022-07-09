@@ -1,0 +1,62 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: product
+data:
+  SPRING_PROFILES_ACTIVE: secret
+---
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: product
+  namespace: dev-server
+  labels:
+    k8s-app: product
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      k8s-app: product
+  template:
+    metadata:
+      name: product
+      labels:
+        k8s-app: product
+    spec:
+      containers:
+        - name: product
+          image: local-repo/product:test1
+          ports:
+            - containerPort: 8890 #runs on port 8890 inside the pod, so any request made to the pod at the port 8890 should be received by this product service
+            - containerPort: 4452
+          env:
+            - name: SPRING_PROFILES_ACTIVE  #this value follows a format like: spring.profiles.active -> SPRING_PROFILES_ACTIVE
+              valueFrom:
+                configMapKeyRef:
+                  name: product #checks the "product" config map to get the value
+                  key: SPRING_PROFILES_ACTIVE #This is the value defined in the config map
+            - name: CONSUL_IP
+              value: "10.1.0.115" #to get this ip run kubectl get pods -o wide
+            - name: CONSUL_PORT
+              value: "8500"
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: product
+  namespace: dev-server
+  labels:
+    k8s-app: product
+spec:
+  ports:
+    - name: tcp-8890-8890-product
+      protocol: TCP
+      port: 8891
+      targetPort: 8890
+    - name: tcp-4452-4452-product
+      protocol: TCP
+      port: 4453
+      targetPort: 4452
+  selector:
+    k8s-app: product
+  type: LoadBalancer

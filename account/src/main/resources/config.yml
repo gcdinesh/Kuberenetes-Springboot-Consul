@@ -1,0 +1,59 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: account
+data:
+  SPRING_PROFILES_ACTIVE: secret
+---
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: account
+  namespace: dev-server
+  labels:
+    k8s-app: account
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      k8s-app: account
+  template:
+    metadata:
+      name: account
+      labels:
+        k8s-app: account
+    spec:
+      containers:
+      - name: account
+        image: local-repo/account:test1
+        env:
+          - name: SPRING_PROFILES_ACTIVE  #this value follows a format like: spring.profiles.active -> SPRING_PROFILES_ACTIVE
+            valueFrom:
+              configMapKeyRef:
+                name: account #checks the "account" config map to get the value
+                key: SPRING_PROFILES_ACTIVE #This is the value defined in the config map
+          - name: CONSUL_IP
+            value: "10.1.0.115"
+          - name: CONSUL_PORT
+            value: "8500"
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: account
+  namespace: dev-server
+  labels:
+    k8s-app: account
+spec:
+  ports:
+    - name: tcp-8890-8890-account
+      protocol: TCP
+      port: 8890
+      targetPort: 8890
+    - name: tcp-4452-4452-account
+      protocol: TCP
+      port: 4452
+      targetPort: 4452
+  selector:
+    k8s-app: account
+  type: LoadBalancer

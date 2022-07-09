@@ -1,0 +1,20 @@
+# Spring properties - if this property is not given here then consul discovery will throw error saying that consul ids must not be empty
+spring:
+  application:
+    name: account-service
+
+#If this management property has separate port then in consul discovery management will be shown as different service
+#if port is not given then will run in same port as the service is started up. This will be used for actuator/health/ and actuator/ etc endpoints
+management:
+  server:
+    port: 4452
+
+# Discovery Server Access - uncomment this section to use eureka service discovery and also in pom uncomment the dependencies
+#eureka:
+#  client:
+#    serviceUrl:
+#      defaultZone: http://127.0.0.1:8888/eureka/
+
+# HTTP Server
+server:
+  port: 8890   # HTTP (Tomcat) port
