@@ -36,27 +36,25 @@ spec:
                   name: product #checks the "product" config map to get the value
                   key: SPRING_PROFILES_ACTIVE #This is the value defined in the config map
             - name: CONSUL_IP
-              value: "10.1.0.115" #to get this ip run kubectl get pods -o wide
+              value: ${CONSUL_SERVICE_HOST} #This value will be populated by kubernetes once a service resource is created. To check all the values type "env" inside any container
             - name: CONSUL_PORT
-              value: "8500"
+              value: ${CONSUL_SERVICE_PORT}
 ---
-kind: Service
 apiVersion: v1
+kind: Service
 metadata:
   name: product
   namespace: dev-server
   labels:
     k8s-app: product
 spec:
-  ports:
-    - name: tcp-8890-8890-product
-      protocol: TCP
-      port: 8891
-      targetPort: 8890
-    - name: tcp-4452-4452-product
-      protocol: TCP
-      port: 4453
-      targetPort: 4452
-  selector:
+  selector: #The selector is the one which tells where the service should map. We are targeting "product" deployment by using app selector label
     k8s-app: product
-  type: LoadBalancer
+  ports:
+    - name: tcp-8890-product
+      protocol: TCP
+      port: 8890
+    - name: tcp-4452-product
+      protocol: TCP
+      port: 4452
+  type: ClusterIP # ClusterIP exposes services accessible within the kubernetes cluster

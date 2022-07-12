@@ -33,9 +33,9 @@ spec:
                 name: account #checks the "account" config map to get the value
                 key: SPRING_PROFILES_ACTIVE #This is the value defined in the config map
           - name: CONSUL_IP
-            value: "10.1.0.115"
+            value: ${CONSUL_SERVICE_HOST}
           - name: CONSUL_PORT
-            value: "8500"
+            value: ${CONSUL_SERVICE_PORT}
 ---
 kind: Service
 apiVersion: v1

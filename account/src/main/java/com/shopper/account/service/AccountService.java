@@ -30,6 +30,9 @@ public class AccountService {
     private final LoginDB loginDB;
 
     @Autowired
+    AccountProperties accountProperties;
+
+    @Autowired
     RestTemplate restTemplate;
     @Autowired
     private DiscoveryClient discoveryClient;
@@ -44,20 +47,16 @@ public class AccountService {
 //        MongoCursor<Document> documentCursor = getUserDetails(loginRequestBody.getUserName());
         URI uri = serviceUrl();
 
+        String pHost = System.getenv("PRODUCT_SERVICE_HOST");
+        String pPort = System.getenv("PRODUCT_SERVICE_PORT");
+        System.out.println(pHost + ":" + pPort);
         String s = "dummy response exception occurred";
+        System.out.println(accountProperties.getTestKey());
         try {
-            s = this.restTemplate.postForObject("http://10.1.0.118:8890" + "/api/v1/checkIfExist", loginRequestBody, String.class);
-            System.out.println("succesful due to 8890");
+            s = this.restTemplate.postForObject("http://" + pHost + ":" + pPort + "/api/v1/checkIfExist", loginRequestBody, String.class);
+            System.out.println("successful due to 8890");
         } catch (Exception e) {
             System.out.println("Exception 8890: " + e.getMessage() + " " + e.getCause());
-            e.printStackTrace();
-        }
-
-        try {
-            s = this.restTemplate.postForObject("http://10.1.0.100:8891" + "/api/v1/checkIfExist", loginRequestBody, String.class);
-            System.out.println("succesful due to 8891");
-        } catch (Exception e) {
-            System.out.println("Exception 8891: " + e.getMessage() + " " + e.getCause());
             e.printStackTrace();
         }
 
