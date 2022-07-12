@@ -1,0 +1,14 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: client-job
+  namespace: dev-server
+spec:
+  template:
+    spec:
+      containers:
+        - name: client
+          image: byrnedo/alpine-curl
+          command: ["curl", "-s",  "http://10.108.95.194:8900/api/v1/login"]
+      restartPolicy: Never
+  backoffLimit: 4
