@@ -24,18 +24,18 @@ spec:
         k8s-app: account
     spec:
       containers:
-      - name: account
-        image: local-repo/account:test1
-        env:
-          - name: SPRING_PROFILES_ACTIVE  #this value follows a format like: spring.profiles.active -> SPRING_PROFILES_ACTIVE
-            valueFrom:
-              configMapKeyRef:
-                name: account #checks the "account" config map to get the value
-                key: SPRING_PROFILES_ACTIVE #This is the value defined in the config map
-          - name: CONSUL_IP
-            value: ${CONSUL_SERVICE_HOST}
-          - name: CONSUL_PORT
-            value: ${CONSUL_SERVICE_PORT}
+        - name: account
+          image: local-repo/account:test1
+          env:
+            - name: SPRING_PROFILES_ACTIVE  #this value follows a format like: spring.profiles.active -> SPRING_PROFILES_ACTIVE
+              valueFrom:
+                configMapKeyRef:
+                  name: account #checks the "account" config map to get the value
+                  key: SPRING_PROFILES_ACTIVE #This is the value defined in the config map
+            - name: CONSUL_IP
+              value: ${CONSUL_SERVICE_HOST}
+            - name: CONSUL_PORT
+              value: ${CONSUL_SERVICE_PORT}
 ---
 kind: Service
 apiVersion: v1

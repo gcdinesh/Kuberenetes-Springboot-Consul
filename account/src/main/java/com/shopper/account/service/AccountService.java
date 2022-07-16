@@ -24,94 +24,90 @@ import java.util.List;
 
 @Service
 public class AccountService {
-    private static final Logger LOGGER = LoggerFactory.getLogger(AccountService.class);
+  private static final Logger LOGGER = LoggerFactory.getLogger(AccountService.class);
 
-    private final Validator validator;
-    private final LoginDB loginDB;
+  private final Validator validator;
+  private final LoginDB loginDB;
+  @Autowired RestTemplate restTemplate;
 
-    @Autowired
-    AccountProperties accountProperties;
+  @Autowired TestProperties testProperties;
+  @Autowired private DiscoveryClient discoveryClient;
 
-    @Autowired
-    RestTemplate restTemplate;
-    @Autowired
-    private DiscoveryClient discoveryClient;
+  @Autowired
+  AccountService(Validator validator, LoginDB loginDB) {
+    this.validator = validator;
+    this.loginDB = loginDB;
+  }
 
-    @Autowired
-    AccountService(Validator validator, LoginDB loginDB) {
-        this.validator = validator;
-        this.loginDB = loginDB;
+  public String login(final LoginRequestBody loginRequestBody) {
+    //        MongoCursor<Document> documentCursor = getUserDetails(loginRequestBody.getUserName());
+    URI uri = serviceUrl();
+    System.out.println(testProperties.getTestkey());
+//    String pPort = System.getenv("PRODUCT_SERVICE_PORT");
+    String s = "dummy response exception occurred";
+    try {
+      s =
+          this.restTemplate.postForObject(
+              "http://product:" + 8890 + "/api/v1/checkIfExist", loginRequestBody, String.class);
+      System.out.println("successful due to 8890");
+    } catch (Exception e) {
+      System.out.println("Exception 8890: " + e.getMessage() + " " + e.getCause());
+      e.printStackTrace();
     }
 
-    public String login(final LoginRequestBody loginRequestBody) {
-//        MongoCursor<Document> documentCursor = getUserDetails(loginRequestBody.getUserName());
-        URI uri = serviceUrl();
+    return s;
 
-        String pHost = System.getenv("PRODUCT_SERVICE_HOST");
-        String pPort = System.getenv("PRODUCT_SERVICE_PORT");
-        System.out.println(pHost + ":" + pPort);
-        String s = "dummy response exception occurred";
-        System.out.println(accountProperties.getTestKey());
-        try {
-            s = this.restTemplate.postForObject("http://" + pHost + ":" + pPort + "/api/v1/checkIfExist", loginRequestBody, String.class);
-            System.out.println("successful due to 8890");
-        } catch (Exception e) {
-            System.out.println("Exception 8890: " + e.getMessage() + " " + e.getCause());
-            e.printStackTrace();
-        }
+    //        if(!documentCursor.hasNext()) {
+    //            throw new UserNotFoundException(Messages.USER_NOT_FOUND,
+    // loginRequestBody.getUserName());
+    //        }
+    //
+    //        Document userDetail = documentCursor.next();
+    //        if(loginRequestBody.getPassword().equals(userDetail.get("password"))) {
+    //            return "Login Successful";
+    //        }
+    //
+    //        throw new InvalidPasswordException();
+    //        return null;
+  }
 
-        return s;
+  public void dummy() {}
 
-//        if(!documentCursor.hasNext()) {
-//            throw new UserNotFoundException(Messages.USER_NOT_FOUND, loginRequestBody.getUserName());
-//        }
-//
-//        Document userDetail = documentCursor.next();
-//        if(loginRequestBody.getPassword().equals(userDetail.get("password"))) {
-//            return "Login Successful";
-//        }
-//
-//        throw new InvalidPasswordException();
-//        return null;
+  public URI serviceUrl() {
+    List<String> list = discoveryClient.getServices();
+    for (String li : list) {
+      System.out.println(li);
     }
 
-    public void dummy() {
+    List<ServiceInstance> serviceInstances = discoveryClient.getInstances("product-service");
+    if (serviceInstances != null && serviceInstances.size() > 0) {
+      return serviceInstances.get(0).getUri();
+    }
+    return null;
+  }
 
+  public String signUp(final SignUpRequestBody signUpRequestBody) {
+    validator.validateUserDetails(signUpRequestBody);
+    MongoCursor<Document> documentCursor = getUserDetails(signUpRequestBody.getUserName());
+
+    if (documentCursor.hasNext()) {
+      throw new UserNotFoundException(
+          Messages.USER_ALREADY_EXISTS, signUpRequestBody.getUserName());
     }
 
-    public URI serviceUrl() {
-        List<String> list = discoveryClient.getServices();
-        for (String li : list) {
-            System.out.println(li);
-        }
+    UserDetailsDAO userDetails =
+        UserDetailsDAO.builder()
+            .emailId(signUpRequestBody.getEmailId())
+            .password(signUpRequestBody.getPassword())
+            .userName(signUpRequestBody.getUserName())
+            .build();
 
-        List<ServiceInstance> serviceInstances = discoveryClient.getInstances("product-service");
-        if (serviceInstances != null && serviceInstances.size() > 0) {
-            return serviceInstances.get(0).getUri();
-        }
-        return null;
-    }
+    loginDB.insert(userDetails);
+    return "Sign Up Successful";
+  }
 
-    public String signUp(final SignUpRequestBody signUpRequestBody) {
-        validator.validateUserDetails(signUpRequestBody);
-        MongoCursor<Document> documentCursor = getUserDetails(signUpRequestBody.getUserName());
-
-        if (documentCursor.hasNext()) {
-            throw new UserNotFoundException(Messages.USER_ALREADY_EXISTS, signUpRequestBody.getUserName());
-        }
-
-        UserDetailsDAO userDetails = UserDetailsDAO.builder().emailId(signUpRequestBody.getEmailId())
-                .password(signUpRequestBody.getPassword())
-                .userName(signUpRequestBody.getUserName())
-                .build();
-
-        loginDB.insert(userDetails);
-        return "Sign Up Successful";
-    }
-
-    private MongoCursor<Document> getUserDetails(final String userName) {
-        Bson filter = Filters.eq("userName", userName);
-        return loginDB.find(filter);
-    }
-
+  private MongoCursor<Document> getUserDetails(final String userName) {
+    Bson filter = Filters.eq("userName", userName);
+    return loginDB.find(filter);
+  }
 }

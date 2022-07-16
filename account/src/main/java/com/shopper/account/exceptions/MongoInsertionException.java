@@ -1,4 +1,3 @@
 package com.shopper.account.exceptions;
 
-public class MongoInsertionException extends AccountServiceException {
-}
+public class MongoInsertionException extends AccountServiceException {}

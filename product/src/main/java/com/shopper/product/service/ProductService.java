@@ -17,36 +17,35 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class ProductService {
-    private static final Logger LOGGER = LoggerFactory.getLogger(ProductService.class);
+  private static final Logger LOGGER = LoggerFactory.getLogger(ProductService.class);
 
-    private final Validator validator;
-    private final LoginDB loginDB;
+  private final Validator validator;
+  private final LoginDB loginDB;
 
-    @Autowired
-    ProductService(Validator validator, LoginDB loginDB) {
-        this.validator = validator;
-        this.loginDB = loginDB;
+  @Autowired
+  ProductService(Validator validator, LoginDB loginDB) {
+    this.validator = validator;
+    this.loginDB = loginDB;
+  }
+
+  public String checkIfExist(final CheckRequestBody checkRequestBody) {
+    System.out.println("asdfasdfasdf");
+    MongoCursor<Document> documentCursor = getUserDetails(checkRequestBody.getUserName());
+
+    if (!documentCursor.hasNext()) {
+      throw new UserNotFoundException(Messages.USER_NOT_FOUND, checkRequestBody.getUserName());
     }
 
-    public String checkIfExist(final CheckRequestBody checkRequestBody) {
-        System.out.println("asdfasdfasdf");
-        MongoCursor<Document> documentCursor = getUserDetails(checkRequestBody.getUserName());
-
-        if (!documentCursor.hasNext()) {
-            throw new UserNotFoundException(Messages.USER_NOT_FOUND, checkRequestBody.getUserName());
-        }
-
-        Document userDetail = documentCursor.next();
-        if (checkRequestBody.getPassword().equals(userDetail.get("password"))) {
-            return "Login Successful";
-        }
-
-        throw new InvalidPasswordException();
+    Document userDetail = documentCursor.next();
+    if (checkRequestBody.getPassword().equals(userDetail.get("password"))) {
+      return "Login Successful";
     }
 
-    private MongoCursor<Document> getUserDetails(final String userName) {
-        Bson filter = Filters.eq("userName", userName);
-        return loginDB.find(filter);
-    }
+    throw new InvalidPasswordException();
+  }
 
+  private MongoCursor<Document> getUserDetails(final String userName) {
+    Bson filter = Filters.eq("userName", userName);
+    return loginDB.find(filter);
+  }
 }

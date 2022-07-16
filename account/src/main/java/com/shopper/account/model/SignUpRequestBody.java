@@ -8,7 +8,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class SignUpRequestBody {
-    private String userName;
-    private String password;
-    private String emailId;
+  private String userName;
+  private String password;
+  private String emailId;
 }

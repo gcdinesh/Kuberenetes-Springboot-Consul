@@ -1,8 +1,3 @@
-# Spring properties - if this property is not given here then consul discovery will throw error saying that consul ids must not be empty
-spring:
-  application:
-    name: account-service
-
 #If this management property has separate port then in consul discovery management will be shown as different service
 #if port is not given then will run in same port as the service is started up. This will be used for actuator/health/ and actuator/ etc endpoints
 management:
@@ -19,4 +14,4 @@ management:
 server:
   port: 8890   # HTTP (Tomcat) port
 
-testkey: testvalue
+testkey: test

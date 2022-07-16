@@ -11,52 +11,52 @@ import java.util.Arrays;
 
 @Component
 public class Validator {
-    private final EmailValidator emailValidator = EmailValidator.getInstance();
+  private final EmailValidator emailValidator = EmailValidator.getInstance();
 
-    public void validateUserDetails(SignUpRequestBody signUpRequestBody) {
-        if (isValidUserName(signUpRequestBody.getUserName())) {
-            throw new InvalidUserDetailsException(Messages.INVALID_USER_NAME);
-        }
-        if (!isValidPassword(signUpRequestBody.getPassword())) {
-            throw new InvalidUserDetailsException(Messages.INVALID_PASSWORD_CREATION);
-        }
-        if (!isValidEmailId(signUpRequestBody.getEmailId())) {
-            throw new InvalidUserDetailsException(Messages.INVALID_EMAIL_ID);
-        }
+  public void validateUserDetails(SignUpRequestBody signUpRequestBody) {
+    if (isValidUserName(signUpRequestBody.getUserName())) {
+      throw new InvalidUserDetailsException(Messages.INVALID_USER_NAME);
+    }
+    if (!isValidPassword(signUpRequestBody.getPassword())) {
+      throw new InvalidUserDetailsException(Messages.INVALID_PASSWORD_CREATION);
+    }
+    if (!isValidEmailId(signUpRequestBody.getEmailId())) {
+      throw new InvalidUserDetailsException(Messages.INVALID_EMAIL_ID);
+    }
+  }
+
+  private boolean isValidUserName(final String userName) {
+    return StringUtils.isBlank(userName);
+  }
+
+  private boolean isValidPassword(final String password) {
+    if (StringUtils.isBlank(password) || password.length() < 8) {
+      return false;
     }
 
-    private boolean isValidUserName(final String userName) {
-        return StringUtils.isBlank(userName);
+    boolean hasCapital = false, hasLower = false, hasDigit = false, hasSpecialChar = false;
+
+    for (char c : password.toCharArray()) {
+      if (Character.isUpperCase(c)) {
+        hasCapital = true;
+      } else if (Character.isLowerCase(c)) {
+        hasLower = true;
+      } else if (Character.isDigit(c)) {
+        hasDigit = true;
+      } else if (Arrays.asList('.', '$', '/', '!', '@', '#', '^', '&', '*', '-', '_', ',')
+          .contains(c)) {
+        hasSpecialChar = true;
+      }
     }
 
-    private boolean isValidPassword(final String password) {
-        if (StringUtils.isBlank(password) || password.length() < 8) {
-            return false;
-        }
+    return hasCapital && hasLower && hasDigit && hasSpecialChar;
+  }
 
-        boolean hasCapital = false, hasLower = false, hasDigit = false, hasSpecialChar = false;
-
-        for (char c : password.toCharArray()) {
-            if (Character.isUpperCase(c)) {
-                hasCapital = true;
-            } else if (Character.isLowerCase(c)) {
-                hasLower = true;
-            } else if (Character.isDigit(c)) {
-                hasDigit = true;
-            } else if (Arrays.asList('.', '$', '/', '!', '@', '#', '^', '&', '*', '-', '_', ',').contains(c)) {
-                hasSpecialChar = true;
-            }
-        }
-
-        return hasCapital && hasLower && hasDigit && hasSpecialChar;
+  private boolean isValidEmailId(String emailId) {
+    if (StringUtils.isBlank(emailId)) {
+      return true;
     }
 
-    private boolean isValidEmailId(String emailId) {
-        if (StringUtils.isBlank(emailId)) {
-            return true;
-        }
-
-        return emailValidator.isValid(emailId);
-    }
-
+    return emailValidator.isValid(emailId);
+  }
 }
