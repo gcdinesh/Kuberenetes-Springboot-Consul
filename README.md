@@ -1,6 +1,6 @@
 # Kuberenets-Springboot-Consul
 Phase 2:
-1) Start the docker desktop
+1) Start the docker desktop (https://kubernetes.io/docs/tasks/access-application-cluster/web-ui-dashboard/)
 2) Run kubectl proxy
 3) Generate the token to login in the UI. Check the kubernetes steps in kubernetes folder.
 4) Goto consul folder and run kubectl apply -f config.yml -n dev-server

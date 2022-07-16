@@ -10,13 +10,13 @@ import org.apache.commons.lang.StringUtils;
 @Getter
 @NoArgsConstructor
 public class LoginRequestBody {
-    private String userName;
-    private String password;
+  private String userName;
+  private String password;
 
-    private void setUserName(final String userName) {
-        if (StringUtils.isEmpty(userName.trim())) {
-            throw new InvalidUserDetailsException(userName);
-        }
-        this.userName = userName;
+  private void setUserName(final String userName) {
+    if (StringUtils.isEmpty(userName.trim())) {
+      throw new InvalidUserDetailsException(userName);
     }
+    this.userName = userName;
+  }
 }

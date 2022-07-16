@@ -1,23 +1,18 @@
 spring:
   application:
-    name: account-service
-
----
-
-spring:
+    name: account
   cloud:
     consul:
-      enabled: true
       host: ${CONSUL_IP}
       port: ${CONSUL_PORT}
-      prefix: config
-      defaultContext: apps  #https://cloud.spring.io/spring-cloud-consul/reference/html/#spring-cloud-consul-config
-      profileSeparator: '::'
       config:
+        enabled: true
+        prefix: configuration #consul expects the yaml blob to be under "config"/account/data by default. Using this will change it to "configuration"/account/data
+        defaultContext: apps #https://cloud.spring.io/spring-cloud-consul/reference/html/#spring-cloud-consul-config
         format: YAML
-        data-key: data
-      discovery:
-        healthCheckInterval: 15s
+        data-key: data #consul expects the yaml blob to be under config/account/"data" using this will change it to configuration/account/"data". In this case both the values are same.
+#      discovery:
+#        healthCheckInterval: 15s
 #          datacenters:
 #            STORES: localhost   #here STORES is the another service name CHANGE IT TO YOUR OWN SERVICE NAME
 

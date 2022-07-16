@@ -1,23 +1,19 @@
 package com.shopper.account.service;
 
 import lombok.Getter;
+import lombok.Setter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.stereotype.Component;
 
-import javax.annotation.PostConstruct;
-
+@Setter
 @Getter
+@Component
 @Configuration
 @RefreshScope
-public class AccountProperties {
+public class TestProperties {
 
   @Value("${testkey}")
-  private String testKey;
-
-  /** To validate that the properties are set correctly. */
-  @PostConstruct
-  public void postConstruct() {
-    System.out.println("** testkey: " + testKey);
-  }
+  private String testkey;
 }

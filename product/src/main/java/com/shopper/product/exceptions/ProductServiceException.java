@@ -3,20 +3,18 @@ package com.shopper.product.exceptions;
 import java.text.MessageFormat;
 
 public class ProductServiceException extends RuntimeException {
-    private static final long serialVersionUID = 7684248076818601417L;
-    protected String userMessage;
-    protected Object[] args;
+  private static final long serialVersionUID = 7684248076818601417L;
+  protected String userMessage;
+  protected Object[] args;
 
-    public ProductServiceException() {
-    }
+  public ProductServiceException() {}
 
-    public ProductServiceException(String userMessage, Object... args) {
-        this.userMessage = MessageFormat.format(userMessage, args);
-        this.args = args;
-    }
+  public ProductServiceException(String userMessage, Object... args) {
+    this.userMessage = MessageFormat.format(userMessage, args);
+    this.args = args;
+  }
 
-    public ErrorDetail getErrorDetail() {
-        return new ErrorDetail(Messages.code1, userMessage);
-    }
-
+  public ErrorDetail getErrorDetail() {
+    return new ErrorDetail(Messages.code1, userMessage);
+  }
 }

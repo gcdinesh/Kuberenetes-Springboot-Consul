@@ -1,5 +1,4 @@
-FROM azul/zulu-openjdk-alpine:8u282-8.52.0.23
-
+FROM azul/zulu-openjdk-alpine:11.0.13-11.52.13-jre-headless-x86
 ENV JAR_PATH = /opt/account
 
 RUN mkdir -p $JAR_PATH
@@ -8,6 +7,7 @@ RUN mkdir -p $JAR_PATH
 #USER shopper-account
 
 ADD target/account-1.0-SNAPSHOT.jar /opt/account.jar
+ADD target/classes/application.yml /opt/application.yml
 
 # 4452 -> health check, 8890 -> application http start port
 EXPOSE 4452 8890

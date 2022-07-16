@@ -36,7 +36,7 @@ spec:
                   name: product #checks the "product" config map to get the value
                   key: SPRING_PROFILES_ACTIVE #This is the value defined in the config map
             - name: CONSUL_IP
-              value: ${CONSUL_SERVICE_HOST} #This value will be populated by kubernetes once a service resource is created. To check all the values type "env" inside any container
+              value: ${CONSUL_SERVICE_HOST} #This value will be populated by kubernetes once a service resource is created. To check all the values type "env" inside any container or we could just the use the "consul" value also coredns will handle it
             - name: CONSUL_PORT
               value: ${CONSUL_SERVICE_PORT}
 ---

@@ -10,5 +10,5 @@ import org.springframework.stereotype.Component;
 @Component
 @ConfigurationProperties("mongo")
 public class MongoProperties {
-    private String uri;
+  private String uri;
 }

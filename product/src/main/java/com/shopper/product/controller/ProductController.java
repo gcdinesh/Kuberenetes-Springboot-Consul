@@ -12,15 +12,15 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/v1")
 public class ProductController {
 
-    private final ProductService productService;
+  private final ProductService productService;
 
-    @Autowired
-    ProductController(ProductService productService) {
-        this.productService = productService;
-    }
+  @Autowired
+  ProductController(ProductService productService) {
+    this.productService = productService;
+  }
 
-    @PostMapping(value = "/checkIfExist")
-    protected String login(@RequestBody final CheckRequestBody checkRequestBody) {
-        return productService.checkIfExist(checkRequestBody);
-    }
+  @PostMapping(value = "/checkIfExist")
+  protected String login(@RequestBody final CheckRequestBody checkRequestBody) {
+    return productService.checkIfExist(checkRequestBody);
+  }
 }

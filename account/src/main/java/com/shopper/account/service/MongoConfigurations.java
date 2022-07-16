@@ -10,14 +10,12 @@ import org.springframework.stereotype.Component;
 @Component
 public class MongoConfigurations {
 
-    @Autowired
-    private MongoProperties mongoProperties;
+  @Autowired private MongoProperties mongoProperties;
 
-    @Bean
-    public MongoDatabase mongoDatabase() {
-        MongoClient mongoClient = MongoClients.create(mongoProperties.getUri());
-        System.out.println(mongoProperties.getUri());
-        return mongoClient.getDatabase("shopper");
-    }
-
+  @Bean
+  public MongoDatabase mongoDatabase() {
+    MongoClient mongoClient = MongoClients.create(mongoProperties.getUri());
+    System.out.println(mongoProperties.getUri());
+    return mongoClient.getDatabase("shopper");
+  }
 }

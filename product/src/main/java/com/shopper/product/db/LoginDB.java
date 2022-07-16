@@ -10,18 +10,18 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class LoginDB extends AbstractMongoDbOperations {
-    public static final String USER_DETAILS_COLLECTION = "userDetails";
+  public static final String USER_DETAILS_COLLECTION = "userDetails";
 
-    @Autowired
-    public LoginDB(MongoDatabase mongoDatabase) {
-        this.mongoDatabase = mongoDatabase;
-    }
+  @Autowired
+  public LoginDB(MongoDatabase mongoDatabase) {
+    this.mongoDatabase = mongoDatabase;
+  }
 
-    public <T extends DBDAO> void insert(T DAO) {
-        insert(DAO, USER_DETAILS_COLLECTION);
-    }
+  public <T extends DBDAO> void insert(T DAO) {
+    insert(DAO, USER_DETAILS_COLLECTION);
+  }
 
-    public MongoCursor<Document> find(Bson filter) {
-        return find(filter, USER_DETAILS_COLLECTION);
-    }
+  public MongoCursor<Document> find(Bson filter) {
+    return find(filter, USER_DETAILS_COLLECTION);
+  }
 }
