@@ -1,1 +1,1 @@
-kubectl delete -f config.yml -n dev-server
+kubectl delete -f ./src/main/resources/config.yml -n dev-server

@@ -11,13 +11,13 @@
     <packaging>jar</packaging>
 
     <properties>
-        <java.version>8</java.version>
-        <maven.compiler.source>8</maven.compiler.source>
-        <maven.compiler.target>8</maven.compiler.target>
+        <java.version>11</java.version>
+        <maven.compiler.source>11</maven.compiler.source>
+        <maven.compiler.target>11</maven.compiler.target>
+
         <spring.boot.version>2.4.1</spring.boot.version>
         <spring.cloud.dependencies.version>2020.0.0</spring.cloud.dependencies.version>
         <spring.consul.version>3.0.0</spring.consul.version>
-        <!--        <spring.eureka.version>3.0.0</spring.eureka.version>-->
 
         <!--non - spring jars-->
         <bson.version>4.1.1</bson.version>
@@ -29,6 +29,7 @@
         <gson.version>2.9.0</gson.version>
         <commons-validator.version>1.7</commons-validator.version>
         <commons-lang.version>2.6</commons-lang.version>
+        <shopper.consul.version>1.0-SNAPSHOT</shopper.consul.version>
     </properties>
 
     <dependencyManagement>
@@ -44,6 +45,12 @@
     </dependencyManagement>
 
     <dependencies>
+        <dependency>
+            <groupId>org.shopper</groupId>
+            <artifactId>consul</artifactId>
+            <version>${shopper.consul.version}</version>
+        </dependency>
+
         <!--        Spring Dependencies   -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -51,9 +58,9 @@
             <version>${spring.boot.version}</version>
             <type>pom</type>
         </dependency>
-        <!--if you are using 2020.0.0 version of spring cloud than you need to this dependency in
-         your maven dependencies to enable bootstrap, which is desabled by default in 2020.0.0.-->
         <dependency>
+            <!--if you are using 2020.0.0 version of spring cloud than you need to this dependency in
+         your maven dependencies to enable bootstrap, which is desabled by default in 2020.0.0.-->
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-bootstrap</artifactId>
         </dependency>
@@ -72,43 +79,22 @@
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter</artifactId>
         </dependency>
-        <!-- commenting spring data mongodb because we have added below mongdb-java driver-->
-        <!--        <dependency>-->
-        <!--            <groupId>org.springframework.boot</groupId>-->
-        <!--            <artifactId>spring-boot-starter-data-mongodb</artifactId>-->
-        <!--            <version>${spring.boot.version}</version>-->
-        <!--        </dependency>-->
-        <!--        <dependency>-->
-        <!--            <groupId>org.springframework.cloud</groupId>-->
-        <!--            <artifactId>spring-cloud-netflix-eureka-client</artifactId>-->
-        <!--            <version>${spring.eureka.version}</version>-->
-        <!--        </dependency>-->
-        <!--        <dependency>-->
-        <!--            <groupId>org.springframework.cloud</groupId>-->
-        <!--            <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>-->
-        <!--            <version>${spring.eureka.version}</version>-->
-        <!--        </dependency>-->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-consul-discovery</artifactId>
+            <artifactId>spring-cloud-starter-consul-config</artifactId>
             <version>${spring.consul.version}</version>
         </dependency>
         <!-- End of Spring Dependencies   -->
 
         <!--Mongo dependencies-->
-        <!--Used for mongo client URI-->
         <dependency>
+            <!--Used for mongo client URI-->
             <groupId>org.mongodb</groupId>
             <artifactId>mongo-java-driver</artifactId>
             <version>${mongo-java-driver.version}</version>
         </dependency>
-        <!--        <dependency>-->
-        <!--            <groupId>org.mongodb</groupId>-->
-        <!--            <artifactId>mongodb-driver-core</artifactId>-->
-        <!--            <version>${mongodb-driver-core.version}</version>-->
-        <!--        </dependency>-->
-        <!--To avoid ClassNotFoundException: org.bson.UuidRepresentation-->
         <dependency>
+            <!--To avoid ClassNotFoundException: org.bson.UuidRepresentation-->
             <groupId>org.mongodb</groupId>
             <artifactId>bson</artifactId>
             <version>${bson.version}</version>
@@ -122,32 +108,34 @@
             <scope>provided</scope>
         </dependency>
 
-        <!-- To avoid missing classDefNotFound: InputCoercion-->
         <dependency>
+            <!-- To avoid missing classDefNotFound: InputCoercion-->
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
             <version>${jackson.version}</version>
         </dependency>
 
-        <!-- To avoid method did not exist for: com.google.gson.GsonBuilder.setLenient()Lcom/google/gson/GsonBuilder;-->
         <dependency>
+            <!-- To avoid method did not exist for: com.google.gson.GsonBuilder.setLenient()Lcom/google/gson/GsonBuilder;-->
             <groupId>com.google.code.gson</groupId>
             <artifactId>gson</artifactId>
             <version>${gson.version}</version>
         </dependency>
 
-        <!-- Used for email validation-->
         <dependency>
+            <!-- Used for email validation-->
             <groupId>commons-validator</groupId>
             <artifactId>commons-validator</artifactId>
             <version>${commons-validator.version}</version>
         </dependency>
+
         <dependency>
             <groupId>commons-lang</groupId>
             <artifactId>commons-lang</artifactId>
             <version>${commons-lang.version}</version>
         </dependency>
     </dependencies>
+
     <build>
         <plugins>
             <plugin>
@@ -183,6 +171,5 @@
             </plugin>
         </plugins>
     </build>
-
 
 </project>
