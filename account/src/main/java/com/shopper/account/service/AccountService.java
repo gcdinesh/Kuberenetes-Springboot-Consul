@@ -40,7 +40,8 @@ public class AccountService {
   public String login(final LoginRequestBody loginRequestBody) {
     //        MongoCursor<Document> documentCursor = getUserDetails(loginRequestBody.getUserName());
     URI uri = serviceUrl();
-    //    String pPort = System.getenv("PRODUCT_SERVICE_PORT");
+//    String pPort = System.getenv("PRODUCT_SERVICE_PORT");
+
     String s = "dummy response exception occurred";
     try {
       s =
