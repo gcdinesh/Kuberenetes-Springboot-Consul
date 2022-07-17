@@ -29,8 +29,6 @@ public class AccountService {
   private final Validator validator;
   private final LoginDB loginDB;
   @Autowired RestTemplate restTemplate;
-
-  @Autowired TestProperties testProperties;
   @Autowired private DiscoveryClient discoveryClient;
 
   @Autowired
@@ -42,8 +40,8 @@ public class AccountService {
   public String login(final LoginRequestBody loginRequestBody) {
     //        MongoCursor<Document> documentCursor = getUserDetails(loginRequestBody.getUserName());
     URI uri = serviceUrl();
-    System.out.println(testProperties.getTestkey());
 //    String pPort = System.getenv("PRODUCT_SERVICE_PORT");
+
     String s = "dummy response exception occurred";
     try {
       s =

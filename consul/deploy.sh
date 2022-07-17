@@ -1,1 +1,1 @@
-kubectl apply -f config.yml -n dev-server
+kubectl apply -f ./src/main/resources/config.yml -n dev-server

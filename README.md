@@ -1,4 +1,15 @@
 # Kuberenets-Springboot-Consul
+Phase 3:
+1) Steps same as "Phase 2".
+
+Features introduced:
+   1) Introduced a custom consul jar which reads the application.yml and uploads it to consul using ConsulRawClient
+   service during startup. (Check the <ServiceName>Application.java)
+   2) Instead of fetching endpoints from environment variables started using coreDNS functionality. If we just use
+    the service name then coreDNS would return us the IP. This overcomes the order of starting service that we had
+    in "phase 2".
+
+
 Phase 2:
 1) Start the docker desktop (https://kubernetes.io/docs/tasks/access-application-cluster/web-ui-dashboard/)
 2) Run kubectl proxy
