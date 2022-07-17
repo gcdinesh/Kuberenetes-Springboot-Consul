@@ -18,6 +18,3 @@ management:
 # HTTP Server
 server:
   port: 8890   # HTTP (Tomcat) port
-
-
-testkey: 1
